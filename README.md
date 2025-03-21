@@ -20,3 +20,12 @@ Pada tahap awal modul ini, saya telah melakukan beberapa langkah penting dalam p
    - Proses ini membuka wawasan saya untuk mengembangkan server web yang lebih kompleks di masa depan dengan menambahkan fitur-fitur seperti pengiriman response HTTP yang valid dan penanganan error yang lebih baik.
 
 Secara keseluruhan, pengalaman ini memberikan landasan yang kuat dalam menggunakan Git dan memulai pengembangan aplikasi jaringan dengan Rust. Langkah berikutnya adalah mengembangkan server dengan kemampuan multi-threaded serta menambahkan fitur-fitur response yang lebih lengkap.
+
+# Commit 2 Reflection Notes
+
+![Commit 2 screen capture](/assets/images/commit2.png)
+
+
+Pada milestone ini, saya memodifikasi fungsi `handle_connection` agar server dapat mengirimkan HTML ke browser. Dengan menggunakan `fs::read_to_string("hello.html")`, saya membaca isi file HTML dan menyusunnya menjadi respons HTTP lengkap yang terdiri dari `status_line`, header seperti `Content-Length`, serta isi HTML itu sendiri. Hal ini penting untuk memberi tahu browser berapa banyak data yang harus dibaca, dan untuk memastikan bahwa browser dapat menampilkan konten yang benar. Saya juga menambahkan header `HTTP/1.1 200 OK` untuk memberi tahu bahwa permintaan berhasil diproses. Proses ini memperlihatkan cara kerja protokol HTTP pada level dasar: server membaca permintaan (meskipun saat ini belum memproses detail path atau metode HTTP), lalu membentuk respons yang valid sehingga browser dapat merendernya. Sebelum menjalankan server lagi, saya memastikan untuk mematikan proses server lama agar port tidak terkunci. Dengan memuat file `hello.html` di browser, saya melihat halaman HTML sederhana yang dikirim oleh server, menunjukkan bahwa mekanisme pengiriman file statis sudah berhasil. Hal ini memberi saya pemahaman lebih dalam tentang cara Rust menangani koneksi TCP dan bagaimana data HTTP perlu diformat agar dapat dikenali dengan benar oleh browser.
+
+
