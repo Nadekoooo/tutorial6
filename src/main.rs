@@ -26,6 +26,20 @@ impl ThreadPool {
         ThreadPool { workers, sender }
     }
 
+    pub fn build(size: usize) -> Result<ThreadPool, &'static str> {
+        if size == 0 {
+            Err("Size must be greater than 0")
+        } else {
+            let (sender, receiver) = mpsc::channel();
+            let receiver = Arc::new(Mutex::new(receiver));
+            let mut workers = Vec::with_capacity(size);
+            for id in 0..size {
+                workers.push(Worker::new(id, Arc::clone(&receiver)));
+            }
+            Ok(ThreadPool { workers, sender })
+        }
+    }
+
     pub fn execute<F>(&self, f: F)
     where
         F: FnOnce() + Send + 'static,
@@ -53,7 +67,7 @@ impl Worker {
 
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
-    let pool = ThreadPool::new(4);
+    let pool = ThreadPool::build(4).unwrap();
     for stream in listener.incoming() {
         let stream = stream.unwrap();
         pool.execute(|| {
