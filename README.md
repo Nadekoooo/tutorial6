@@ -30,7 +30,7 @@ Pada milestone ini, saya memodifikasi fungsi `handle_connection` agar server dap
 
 # Commit 3 Reflection Notes
 
-![Commit 2 screen capture](/assets/images/commit3.png)
+![Commit 3 screen capture](/assets/images/commit3.png)
 
 Pada tahap ini, saya mempelajari cara memvalidasi request yang masuk dan memberikan respons yang berbeda tergantung pada path yang diminta. Jika browser meminta path `/bad`, maka server mengirimkan file `404.html` beserta status `404 NOT FOUND`. Sebaliknya, untuk path lain (misalnya `/`), server mengirimkan file `hello.html` dengan status `200 OK`.
 
@@ -52,3 +52,7 @@ Pada tahap ini, saya mempelajari cara memvalidasi request yang masuk dan memberi
 Refactoring dibutuhkan agar kode lebih terstruktur dan mudah dikembangkan di masa depan. Dengan memisahkan logika pemilihan file, status HTTP, serta konten HTML, kita bisa menambahkan halaman lain atau menyesuaikan status HTTP tanpa mengubah banyak bagian kode.
 
 Secara keseluruhan, proses ini memberi saya pemahaman yang lebih dalam tentang bagaimana web server dapat mengenali permintaan tertentu dan memberikan tanggapan berbeda sesuai dengan resource yang diminta.
+
+# Commit 4 Reflection Notes
+
+Pada commit ini, saya menambahkan rute baru (`GET /sleep`) untuk mensimulasikan permintaan yang lambat dengan membuat server berhenti selama 10 detik sebelum mengirimkan respons. Dengan menggunakan `thread::sleep(Duration::from_secs(10))`, kode secara sengaja menunda respons, sehingga membantu saya memahami bagaimana operasi yang memblokir dapat mempengaruhi kemampuan server untuk menangani permintaan lain secara bersamaan. Simulasi ini menunjukkan bahwa pada server single-threaded, satu operasi yang memblokir akan menghentikan pemrosesan permintaan lain hingga operasi tersebut selesai. Hal ini menekankan pentingnya menggunakan operasi non-blok dan penerapan konkruensi dalam pengembangan server web yang lebih kompleks dan siap produksi. Saya juga belajar mengenai cara memvalidasi permintaan dan memberikan respons secara selektif berdasarkan URL yang diminta.
